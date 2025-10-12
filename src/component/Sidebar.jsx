@@ -1,4 +1,5 @@
 import React from 'react'
+import Progressbar from './ui_logic/Progressbar'
 
 const Sidebar = () => {
   return (
@@ -10,7 +11,9 @@ const Sidebar = () => {
                 </h2>
                 <div>
                     <h3>Todays Progress</h3>
-
+                    <div class="mt-2">
+                    <Progressbar />
+                    </div>
                 </div>
             </div>
 
