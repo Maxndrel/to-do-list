@@ -34,7 +34,7 @@ const Sidebar = () => {
                                 All Tasks
                             </p>
                         </div>
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>20</p>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>20</p>
                     </div>
 
                     <div className='flex justify-between mb-2'>
@@ -48,7 +48,7 @@ const Sidebar = () => {
                                 Active
                             </p>
                         </div>
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>0</p>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>0</p>
                     </div>
 
                     <div className='flex justify-between'>
@@ -63,7 +63,7 @@ const Sidebar = () => {
                             </p>
                         </div>
 
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>20</p>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>20</p>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@ const Sidebar = () => {
                             <div className='w-[8px] h-[8px] rounded-xl bg-red-500 mt-1.5'/>
                             <p className='text-base mb-2'>High</p>
                         </div>
-                         <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>10</p>                   
+                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>10</p>                   
                     </div>
 
                     <div className='flex justify-between mb-2'>
@@ -85,7 +85,7 @@ const Sidebar = () => {
                             <div className='w-[8px] h-[8px] rounded-xl bg-yellow-500 mt-1.5'/>
                             <p className='text-base mb-2'>Medium</p>
                         </div>
-                          <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>2</p>                  
+                          <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>2</p>                  
                     </div>
 
                     <div className='flex justify-between'>
@@ -93,7 +93,7 @@ const Sidebar = () => {
                         <div className='w-[8px] h-[8px] rounded-xl bg-blue-500 mt-1.5'/>
                         <p className='text-base'>Low</p>
                     </div>
-                         <p className='p-1 w-[30px] rounded-2xl bg-gray-200 text-base text-center'>8</p>                   
+                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>8</p>                   
                     </div>
                 </div>
 
