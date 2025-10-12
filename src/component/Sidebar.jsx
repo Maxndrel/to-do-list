@@ -3,9 +3,9 @@ import React from 'react'
 const Sidebar = () => {
   return (
     <>
-      <div class="flex gap-[20px] flex-col items-center">
+      <div class="flex gap-[20px] flex-col items-center p-5">
             <div class="w-[250px] grow">
-                <h2>
+                <h2 class="text-xl font-semibold">
                     My Tasks
                 </h2>
                 <div>
