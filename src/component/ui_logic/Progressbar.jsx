@@ -21,14 +21,17 @@ useEffect(() => {
 
 
   return (
-    <div className="w-full max-w-md mx-auto flex justisfy-between">
+    <div className="w-full max-w-md mx-auto">
       <div className="w-full rounded-full h-3 overflow-hidden">
         <div
           className="bg-green-500 h-full transition-all duration-500"
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <p className="text-center mt-2 font-medium">{progress}%</p>
+      <p className="mt-1 font-base text-gray-700 text-sm">
+        20 of 20 Completed 
+        <span className='ml-22'>{progress}%</span>
+      </p>
     </div>
   )
 }
