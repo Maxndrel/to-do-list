@@ -7,8 +7,8 @@ const Sidebar = () => {
   return (
     <>
       <div class="flex gap-[20px] flex-col items-center pl-5 pr-5">
-            <div class="w-[250px] grow">
-                <h2 class="text-xl font-semibold pt-6 pb-6 border-b-1 border-gray-300">
+            <div class="w-[250px] grow mb2">
+                <h2 class="text-xl font-semibold pt-6 pb-6 border-b-1 border-gray-300 mb-1">
                     My Tasks
                 </h2>
                 <div className='pt-3 pb-3 border-b-1 border-gray-300'>
@@ -20,38 +20,38 @@ const Sidebar = () => {
             </div>
 
 
-            <div class="w-[250px] grow">
+            <div class="w-[250px] grow mb-2">
                 <h3 className='text-lg mb-2'>Categories</h3>
                 <div>
-                    <div className='flex gap-1 align-center'>
+                    <div className='flex gap-2 align-center'>
                         <HugeiconsIcon
                             icon={TaskDaily01Icon}
                             size={18}
                             className=''
                         />
-                        <p className='text-md text-center mb-1'>
+                        <p className='text-md text-center mb-2'>
                             All Tasks
                         </p>
                     </div>
 
-                    <div className='flex gap-1 align-center'>
+                    <div className='flex gap-2 align-center'>
                         <HugeiconsIcon
                             icon={Clock01Icon}
                             size={18}
                             className=''
                         />
-                        <p className='text-md text-center mb-1'>
+                        <p className='text-md text-center mb-2'>
                             Active
                         </p>
                     </div>
 
-                    <div className='flex gap-1 align-center'>
+                    <div className='flex gap-2 align-center'>
                         <HugeiconsIcon
                             icon={PhoneCheckIcon}
                             size={18}
                             className=''
                         />
-                        <p className='text-md text-center mb-1'>
+                        <p className='text-md text-center'>
                             Completed
                         </p>
                     </div>
@@ -62,12 +62,20 @@ const Sidebar = () => {
             <div class="w-[250px] grow">
                 <h3 className='text-lg mb-2'>Priority</h3>
                 <div>
-                    <div className='flex gap-1 align-center'>
-                        <div className='w-[8px] h-[8px] rounded-xl bg-red-500'/>
-                        <p className='text-base text-center mb-1'>High</p>
+                    <div className='flex gap-2 align-center'>
+                        <div className='w-[8px] h-[8px] rounded-xl bg-red-500 mt-1.5'/>
+                        <p className='text-base mb-2'>High</p>
                     </div>
-                    <p className='text-base mb-1'>Medium</p>
-                    <p className='text-base mb-1'>Low</p>
+
+                    <div className='flex gap-2 align-center'>
+                        <div className='w-[8px] h-[8px] rounded-xl bg-yellow-500 mt-1.5'/>
+                        <p className='text-base mb-2'>Medium</p>
+                    </div>
+
+                    <div className='flex gap-2 align-center'>
+                        <div className='w-[8px] h-[8px] rounded-xl bg-blue-500 mt-1.5'/>
+                        <p className='text-base'>Low</p>
+                    </div>
                 </div>
 
             </div>
