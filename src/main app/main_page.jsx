@@ -28,6 +28,7 @@ const main_page = () => {
       description,
       priority,
       dueDateTime,
+      createdAt: new Date().toISOString(),
     };
 
     setTasks([...tasks, newTask]); // add new task to the list
@@ -39,7 +40,7 @@ const main_page = () => {
     setDueDateTime("");
   };
 
-  // 🧠 Helper function to format date & time
+  // Helper function to format date & time
   const formatDateTime = (dateTime) => {
     if (!dateTime) return "";
     const date = new Date(dateTime);
@@ -148,14 +149,13 @@ const main_page = () => {
 
         <div>
           {/* task list */}
-          <div className='mt-10'>
+          <div className='mt-6'>
             <ul className="mt-2">
               {tasks.map((task, index) => (
-                <li key={index} className="border p-2 rounded mb-2">
-                  <h4 className="font-bold">{task.title} <span className='text-sm ml-2 bg-red-500/30  text-red-500 rounded-md p-1 w-[40px]'>{task.priority}</span></h4>
+                <li key={index} className="bg-gray-100 p-3 rounded-lg mb-2">
+                  <h4 className="font-bold">{task.title} <span className='text-sm ml-3 bg-red-500/30  text-red-500 rounded-md p-1 w-[40px]'>{task.priority}</span></h4>
                   <p>{task.description}</p>
-                  
-                  <p>Due: {formatDateTime(task.dueDateTime)}</p>
+                  <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span className='ml-6 text-sm'>Created: {formatDateTime(task.createdAt)}</span></p>
                 </li>
               ))}
             </ul>
