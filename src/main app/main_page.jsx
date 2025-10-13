@@ -37,9 +37,9 @@ const main_page = () => {
           </div>
 
           {isOpen && (
-            <div className="fixed inset-0 backdrop-blur-sm bg-opacity-[10%] flex items-center justify-center">
+            <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
               {/* Popup Box */}
-              <div className="bg-white rounded-lg p-6 w-80 shadow-lg relative">
+              <div className="bg-white rounded-lg p-6 w-180 shadow-lg relative">
                 <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
 
                 {/* Form */}
