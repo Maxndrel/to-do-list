@@ -166,14 +166,22 @@ const main_page = () => {
           <div className='mt-6'>
             <ul className="mt-2">
               {tasks.map((task, index) => (
-                <li key={index} className="bg-gray-100 p-3 rounded-lg mb-2">
-                  
+                <li key={index} className="bg-gray-100 p-5 rounded-lg mb-2 flex gap-4">
                   <div className='flex items-center'>
-                    <h4 className="font-bold uppercase text-lg">{task.title} </h4>
-                    <span className={getPriorityColor(task.priority)}>{task.priority}</span>
+                    <button 
+                    type="button"
+                    // onClick={}
+                    className='w-[20px] h-[20px] rounded-xl border-1 mt-1.5'/>
                   </div>
-                  <p>{task.description}</p>
-                  <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
+
+                  <div>
+                    <div className='flex items-center'>
+                      <h4 className="font-bold uppercase text-lg">{task.title} </h4>
+                      <span className={getPriorityColor(task.priority)}>{task.priority}</span>
+                    </div>
+                    <p>{task.description}</p>
+                    <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
+                  </div>
                 </li>
               ))}
             </ul>
