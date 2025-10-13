@@ -152,9 +152,9 @@ const main_page = () => {
             <ul className="mt-2">
               {tasks.map((task, index) => (
                 <li key={index} className="border p-2 rounded mb-2">
-                  <h4 className="font-bold">{task.title}</h4>
+                  <h4 className="font-bold">{task.title} <span className='text-sm ml-2 bg-red-500/30  text-red-500 rounded-md p-1 w-[40px]'>{task.priority}</span></h4>
                   <p>{task.description}</p>
-                  <p className='text-sm ml-2 bg-red-500/10  text-red-600 rounded-md p-0.5 w-[20px]'>{task.priority}</p>
+                  
                   <p>Due: {formatDateTime(task.dueDateTime)}</p>
                 </li>
               ))}
