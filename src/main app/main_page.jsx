@@ -154,7 +154,7 @@ const main_page = () => {
                 <li key={index} className="border p-2 rounded mb-2">
                   <h4 className="font-bold">{task.title}</h4>
                   <p>{task.description}</p>
-                  <p>Priority: {task.priority}</p>
+                  <p className='text-sm ml-2 bg-red-500/10  text-red-600 rounded-md p-0.5 w-[20px]'>{task.priority}</p>
                   <p>Due: {formatDateTime(task.dueDateTime)}</p>
                 </li>
               ))}
