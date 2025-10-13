@@ -27,7 +27,6 @@ const main_page = () => {
       title,
       description,
       priority,
-      dueDate,
       dueDateTime,
     };
 
@@ -38,6 +37,16 @@ const main_page = () => {
     setDescription("");
     setPriority("");
     setDueDateTime("");
+  };
+
+  // 🧠 Helper function to format date & time
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) return "";
+    const date = new Date(dateTime);
+    return date.toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
   };
   
 
@@ -81,7 +90,7 @@ const main_page = () => {
                       type="text" 
                       placeholder="task title"
                       value={title}
-                      onChange={(e) => setDescription(e.target.value)}
+                      onChange={(e) => setTitle(e.target.value)}
                       required 
                       class="border-2 rounded-md p-2 w-100"/>
 
@@ -110,12 +119,13 @@ const main_page = () => {
                         <input 
                         type="datetime-local" 
                         value={dueDateTime}
-                        onChange={(e) => setTask(e.target.value)} />
+                        onChange={(e) => setDueDateTime(e.target.value)} />
                       </div>
                     
                       <div className='flex gap-2'>
                         <button 
                         type="submit" 
+                        onClick={addTask}
                         class="border-2 rounded-lg p-2 bg-sky-950 hover:bg-sky-900 text-white ">
                           Add Task
                         </button>
@@ -139,10 +149,13 @@ const main_page = () => {
         <div>
           {/* task list */}
           <div className='mt-10'>
-            <ul>
-              {task.map((task, index) => (
-                <li key={index}>
-                  {task}
+            <ul className="mt-2">
+              {tasks.map((task, index) => (
+                <li key={index} className="border p-2 rounded mb-2">
+                  <h4 className="font-bold">{task.title}</h4>
+                  <p>{task.description}</p>
+                  <p>Priority: {task.priority}</p>
+                  <p>Due: {formatDateTime(task.dueDateTime)}</p>
                 </li>
               ))}
             </ul>
