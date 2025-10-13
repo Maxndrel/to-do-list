@@ -54,11 +54,11 @@ const main_page = () => {
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "High":
-        return "text-red-600 bg-red-600/25 ml-3 rounded-md p-1 w-[40px]";
+        return "text-red-600 bg-red-600/25 ml-3 rounded-md p-1 w-fit text-sm";
       case "Medium":
-        return "text-yellow-600 bg-yellow-600/25 ml-3  rounded-md p-1 w-[40px]";
+        return "text-yellow-600 bg-yellow-600/25 ml-3  rounded-md p-1 w-fit text-sm";
       case "Low":
-        return "text-green-600 bg-green-600/25 ml-3  rounded-md p-1 w-[40px]";
+        return "text-green-600 bg-green-600/25 ml-3  rounded-md p-1 w-fit text-sm";
       default:
         return "text-gray-500";
     }
@@ -167,12 +167,13 @@ const main_page = () => {
             <ul className="mt-2">
               {tasks.map((task, index) => (
                 <li key={index} className="bg-gray-100 p-3 rounded-lg mb-2">
-                  <div>
+                  
+                  <div className='flex items-center'>
                     <h4 className="font-bold uppercase text-lg">{task.title} </h4>
                     <span className={getPriorityColor(task.priority)}>{task.priority}</span>
                   </div>
                   <p>{task.description}</p>
-                  <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span className='ml-6 text-sm'>Created: {formatDateTime(task.createdAt)}</span></p>
+                  <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
                 </li>
               ))}
             </ul>
