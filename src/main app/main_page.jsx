@@ -7,7 +7,14 @@ import AddTaskForm from '../component/addTaskForm';
 
 const main_page = () => {
   const [isOpen, setIsOpen] = useState(false);
-  
+  const [task, setTask] = useState("");
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        alert(`Task Added: ${task}`);
+        setTask("");
+        setIsOpen(false);
+      }
 
   return (
     <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full m-1">
@@ -43,7 +50,58 @@ const main_page = () => {
                 <h2 className="text-xl font-semibold mb-4">Add New Task</h2>
 
                 {/* Form */}
-                <AddTaskForm />
+                <div className='flex justify-center items-center'>
+                    <form  onSubmit={handleSubmit} className='flex flex-col gap-4 mt-10 w-1/2'>
+                      <input 
+                      type="text" 
+                      placeholder="task header"
+                      value={task}
+                      onChange={(e) => setTask(e.target.value)}
+                      required 
+                      class="border-2 rounded-md p-2 w-100"/>
+
+                      <input 
+                      type="text" 
+                      placeholder="Describe task" 
+                      onChange={(e) => setTask(e.target.value)}
+                      required 
+                      class="border-2 rounded-md p-2 w-100"/>
+
+                      <select
+                      required
+                      className="border rounded-lg p-2 w-40"
+                      >
+                        <option value="">- Priority Level -</option>
+                        <option>Low</option>
+                        <option>Medium</option>
+                        <option>High</option>
+                      </select>
+
+                      <div className='text-base flex justify-between'>
+                      <label>Set Deadline: </label>
+                      <input 
+                      type="datetime-local" 
+                      name="" 
+                      id="" />
+                      </div>
+                    
+                        <div className='flex gap-2'>
+                      <button 
+                      type="submit" 
+                      class="border-2 rounded-lg p-2 bg-sky-950 hover:bg-sky-900 text-white ">
+                        Add Task
+                      </button>
+
+                        <button
+                          type="button"
+                          onClick={() => setIsOpen(false)}
+                          className="bg-red-600 text-gray-800 px-3 py-1 rounded-md hover:bg-red-500"
+                        > 
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                </div>
               </div>
             </div>
           )}
