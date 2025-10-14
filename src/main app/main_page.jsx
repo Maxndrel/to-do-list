@@ -23,15 +23,7 @@ const main_page = () => {
     setTask("");
     setIsOpen(false);
 
-    if (
-      !formData.title.trim() ||
-      !formData.description.trim() ||
-      !formData.priority.trim() ||
-      !formData.dueDateTime.trim()
-    ) {
-      alert("Please fill in all fields!");
-      return;
-    }
+    
   }
 
   const addTask = () => {
