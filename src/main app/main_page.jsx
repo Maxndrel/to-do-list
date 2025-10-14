@@ -65,7 +65,6 @@ const main_page = () => {
   };
 
   const [isDone, setIsDone] = useState(false); 
-
   const toggleDone = () => {
     setIsDone(!isDone);
   };
