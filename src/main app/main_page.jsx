@@ -63,6 +63,12 @@ const main_page = () => {
         return "text-gray-500";
     }
   };
+
+  const [isDone, setIsDone] = useState(false); 
+
+  const toggleDone = () => {
+    setIsDone(!isDone);
+  };
   
 
   return (
@@ -170,16 +176,16 @@ const main_page = () => {
                   <div className='flex items-center'>
                     <button 
                     type="button"
-                    // onClick={}
-                    className='w-[20px] h-[20px] rounded-xl border-1 mt-1.5'/>
+                    onClick={toggleDone}
+                    className='w-[20px] h-[20px] rounded-xl border-1 mt-1.5 ${isDone ? "bg-green-500 border-green-500" : "border-gray-400"}'> {isDone && <span className="text-white text-sm font-bold">✓</span>}</button>
                   </div>
 
                   <div>
                     <div className='flex items-center'>
-                      <h4 className="font-bold uppercase text-lg">{task.title} </h4>
+                      <h4 className={'font-bold uppercase text-lg  ${isDone ? "line-through text-gray-400" : "text-black"}'}>{task.title} </h4>
                       <span className={getPriorityColor(task.priority)}>{task.priority}</span>
                     </div>
-                    <p>{task.description}</p>
+                    <p className={`${isDone ? "line-through text-gray-400" : "text-black"}`}>{task.description}</p>
                     <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
                   </div>
                 </li>
