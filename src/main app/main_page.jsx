@@ -8,20 +8,32 @@ const main_page = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [task, setTask] = useState([""]);
     
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(`Task Added: ${task}`);
-    setTask("");
-    setIsOpen(false);
-  }
   
   const [tasks, setTasks] = useState([]); // stores all tasks
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("");
   const [dueDateTime, setDueDateTime] = useState("");
-
+  const [error, setError] = useState("");
+  
   // function to add a new task
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(`Task Added: ${task}`);
+    setTask("");
+    setIsOpen(false);
+
+    if (
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.priority.trim() ||
+      !formData.dueDateTime.trim()
+    ) {
+      alert("Please fill in all fields!");
+      return;
+    }
+  }
+
   const addTask = () => {
     const newTask = {
       title,
@@ -68,6 +80,8 @@ const main_page = () => {
   const toggleDone = () => {
     setIsDone(!isDone);
   };
+
+  
   
 
   return (
@@ -102,6 +116,13 @@ const main_page = () => {
               {/* Popup Box */}
               <div className="bg-white rounded-lg p-6 w-180 shadow-lg relative">
                 <h2 className="text-xl text-center font-semibold mb-2">Add New Task</h2>
+
+                {/* Show Error Message */}
+                {error && (
+                  <p className="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-3">
+                    {error}
+                  </p>
+                )}
 
                 {/* Form */}
                 <div className='flex justify-center items-center'>
