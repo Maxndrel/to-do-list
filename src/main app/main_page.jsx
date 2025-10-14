@@ -177,22 +177,22 @@ const main_page = () => {
                     <button 
                     type="button"
                     onClick={toggleDone}
-                    className='w-[25px] h-[25px] rounded-sm border-1 p-0.5 ${isDone ? "bg-green-600 border-green-600" : "border-gray-400"}'> {isDone && <span className=""><HugeiconsIcon icon={TickDouble03Icon } size={18}/></span>}</button>
+                    className='w-[25px] h-[25px] rounded-sm border-1 p-0.5'> {isDone && <span className=""><HugeiconsIcon icon={TickDouble03Icon } size={18}/></span>}</button>
                   </div>
 
-                  <div>
+                  <div className='flex justify-between w-full px-2'>
                     <div>
-                    <div className='flex items-center'>
-                      <h4 className={'font-bold uppercase text-lg  ${isDone ? "line-through text-gray-400" : "text-black"}'}>{task.title} </h4>
-                      <span className={getPriorityColor(task.priority)}>{task.priority}</span>
-                    </div>
-                    <p className={`${isDone ? "line-through text-gray-400" : "text-black"}`}>{task.description}</p>
-                    <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
+                      <div className='flex items-center'>
+                        <h4 className={'font-bold uppercase text-lg'}>{task.title} </h4>
+                        <span className={getPriorityColor(task.priority)}>{task.priority}</span>
+                      </div>
+                      <p className={`${isDone ? "line-through text-gray-500" : "text-black"}`}>{task.description}</p>
+                      <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span className='ml-10'>Created: {formatDateTime(task.createdAt)}</span></p>
                     </div>
 
-                    <div>
+                    <div className='flex w-fit items-center gap-3'>
                       <button><HugeiconsIcon icon={PropertyEditIcon} /></button>
-                      <button><HugeiconsIcon icon={Delete02Icon} /></button>
+                      <button><HugeiconsIcon icon={Delete02Icon} color='red' /></button>
                     </div>
                   </div>
                 </li>
