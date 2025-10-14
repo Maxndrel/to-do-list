@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from '../component/Sidebar'
 import { HugeiconsIcon } from '@hugeicons/react';
-import { SearchIcon, Add02Icon, TickDouble03Icon } from '@hugeicons/core-free-icons';
+import { SearchIcon, Add02Icon, TickDouble03Icon, PropertyEditIcon, Delete02Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 
 const main_page = () => {
@@ -181,12 +181,19 @@ const main_page = () => {
                   </div>
 
                   <div>
+                    <div>
                     <div className='flex items-center'>
                       <h4 className={'font-bold uppercase text-lg  ${isDone ? "line-through text-gray-400" : "text-black"}'}>{task.title} </h4>
                       <span className={getPriorityColor(task.priority)}>{task.priority}</span>
                     </div>
                     <p className={`${isDone ? "line-through text-gray-400" : "text-black"}`}>{task.description}</p>
                     <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span>Created: {formatDateTime(task.createdAt)}</span></p>
+                    </div>
+
+                    <div>
+                      <button><HugeiconsIcon icon={PropertyEditIcon} /></button>
+                      <button><HugeiconsIcon icon={Delete02Icon} /></button>
+                    </div>
                   </div>
                 </li>
               ))}
