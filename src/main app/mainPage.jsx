@@ -4,7 +4,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { SearchIcon, Add02Icon, TickDouble03Icon, PropertyEditIcon, Delete02Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 
-const main_page = () => {
+const MainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [task, setTask] = useState([""]);
     
@@ -26,7 +26,22 @@ const main_page = () => {
     
   }
 
-  const addTask = () => {
+  const handleAddTask = () => {
+    // Validation check
+    
+
+  };
+
+   const addTask = (e) => {
+    e.preventDefault();
+
+    // Validation check
+    if (!title || !description || !priority || !dueDateTime) {
+      setError("⚠️ Please fill in all fields before adding a task.");
+      return;
+    }
+
+    // If all fields are filled
     const newTask = {
       title,
       description,
@@ -35,13 +50,16 @@ const main_page = () => {
       createdAt: new Date().toISOString(),
     };
 
-    setTasks([...tasks, newTask]); // add new task to the list
+    setTasks([...tasks, newTask]);
+    setError("");
 
-    // clear inputs
+    // Clear inputs
     setTitle("");
     setDescription("");
     setPriority("");
     setDueDateTime("");
+
+    setIsOpen(false);
   };
 
   // Helper function to format date & time
@@ -77,31 +95,34 @@ const main_page = () => {
   
 
   return (
-    <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full m-1">
+    <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-1">
       {/* left side or side bar */}
-      <div className="w-[20%] h-150 border-2">
+      <div className="w-[20%] h-150 border-2 fixed">
       <Sidebar/>
       </div>
       
       {/* right side */}
-      <div className=" w-[80%] h-150 border-2 pr-15 pl-15">
-        <div className="item flex justify-between">
-          <div className='pt-5 pb-7'>
-            <h1 className='text-2xl font-semibold'>Today's Tasks</h1>
-            <p className='text-sm'>Manage your tasks efficently</p>
+      <div className=" w-[80%] h-150 border-2 pr-15 pl-15 ml-[18rem]">
+        <div className='fixed backdrop:blur-sm bg-white w-[70%]'>
+          <div className="item flex justify-between">
+            <div className='pt-5 pb-7'>
+              <h1 className='text-2xl font-semibold'>Today's Tasks</h1>
+              <p className='text-sm'>Manage your tasks efficently</p>
+            </div>
+
+            <p className='pt-8 text-sm'>Friday, October 12, 2025 </p>
           </div>
 
-          <p className='pt-8 text-sm'>Friday, October 12, 2025 </p>
-        </div>
-
-        <div className="item">
           <div className='flex justify-center items-center bg-gray-100 p-4 rounded-lg'>
             <form action="#" method="get">
               <input type="text" placeholder="Search task" className="border-2 rounded-md p-2 w-180 relative"/>
-              <button type="submit" className=" rounded-xl p-2 text-white absolute right-60 top-31"><HugeiconsIcon icon={SearchIcon} size={24} color='grey'/></button>
+              <button type="submit" className=" rounded-xl p-2 text-white absolute right-45 top-29.5"><HugeiconsIcon icon={SearchIcon} size={24} color='grey'/></button>
             </form>
             <button className='p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg ml-2 text-white flex gap-1' onClick={() => setIsOpen(true)}> <HugeiconsIcon icon={Add02Icon} size={18} className='mt-0.5' /> Add Task</button>
           </div>
+        </div>
+
+        <div className="item mt-50">
 
           {isOpen && (
             <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center">
@@ -158,7 +179,7 @@ const main_page = () => {
                       <div className='flex gap-2'>
                         <button 
                         type="submit" 
-                        onClick={addTask}
+                        onClick={addTask}                    
                         class="border-2 rounded-lg p-2 bg-sky-950 hover:bg-sky-900 text-white ">
                           Add Task
                         </button>
@@ -217,4 +238,4 @@ const main_page = () => {
   )
 }
 
-export default main_page
+export default MainPage
