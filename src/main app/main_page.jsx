@@ -1,7 +1,7 @@
 import React from 'react'
 import Sidebar from '../component/Sidebar'
-import { SearchIcon, Add02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { SearchIcon, Add02Icon, TickDouble03Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 
 const main_page = () => {
@@ -173,11 +173,11 @@ const main_page = () => {
             <ul className="mt-2">
               {tasks.map((task, index) => (
                 <li key={index} className="bg-gray-100 p-5 rounded-lg mb-2 flex gap-4">
-                  <div className='flex items-center'>
+                  <div className='flex justify-center items-center'>
                     <button 
                     type="button"
                     onClick={toggleDone}
-                    className='w-[20px] h-[20px] rounded-xl border-1 mt-1.5 ${isDone ? "bg-green-500 border-green-500" : "border-gray-400"}'> {isDone && <span className="text-white text-sm font-bold">✓</span>}</button>
+                    className='w-[25px] h-[25px] rounded-sm border-1 p-0.5 ${isDone ? "bg-green-600 border-green-600" : "border-gray-400"}'> {isDone && <span className=""><HugeiconsIcon icon={TickDouble03Icon } size={18}/></span>}</button>
                   </div>
 
                   <div>
