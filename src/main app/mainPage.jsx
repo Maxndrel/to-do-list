@@ -4,7 +4,7 @@ import { HugeiconsIcon } from '@hugeicons/react';
 import { SearchIcon, Add02Icon, TickDouble03Icon, PropertyEditIcon, Delete02Icon } from '@hugeicons/core-free-icons';
 import { useState } from 'react';
 
-const MainPage = () => {
+const mainPage = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [task, setTask] = useState([""]);
     
@@ -238,4 +238,5 @@ const MainPage = () => {
   )
 }
 
-export default MainPage
+
+export default mainPage
