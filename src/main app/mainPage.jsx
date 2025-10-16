@@ -241,7 +241,7 @@ const MainPage = () => {
         )}
 
         {/* Task List */}
-        <div className="mt-6 pt-60">
+        <div className="mt-6 pt-43">
           <ul className="mt-2">
             {tasks.map((task, index) => (
               <li
@@ -252,7 +252,7 @@ const MainPage = () => {
                 <button
                   type="button"
                   onClick={() => toggleDone(index)}
-                  className="w-[25px] h-[25px] rounded-sm border p-0.5 flex justify-center items-center"
+                  className="w-[25px] my-auto h-[25px] rounded-sm border p-0.5 flex justify-center items-center"
                 >
                   {task.isDone && (
                     <HugeiconsIcon icon={TickDouble03Icon} size={18} />
