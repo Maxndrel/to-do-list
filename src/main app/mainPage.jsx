@@ -76,11 +76,11 @@ const mainPage = () => {
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "High":
-        return "text-red-500 bg-red-100 ml-3 rounded-md p-1 w-fit text-sm";
+        return "text-red-500 bg-red-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm";
       case "Medium":
-        return "text-yellow-500 bg-yellow-100 ml-3  rounded-md p-1 w-fit text-sm";
+        return "text-yellow-500 bg-yellow-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm";
       case "Low":
-        return "text-green-500 bg-green-100 ml-3  rounded-md p-1 w-fit text-sm";
+        return "text-green-500 bg-green-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm";
       default:
         return "text-gray-500";
     }
@@ -227,9 +227,12 @@ const mainPage = () => {
 
                     <div className='flex w-fit items-center gap-3'>
                       <button
-                      onClick={() => deleteTask(index)}
+                      
                       ><HugeiconsIcon icon={PropertyEditIcon} /></button>
-                      <button><HugeiconsIcon icon={Delete02Icon} color='red' /></button>
+                      <button
+                      onClick={() => deleteTask(index)}
+                      >
+                      <HugeiconsIcon icon={Delete02Icon} color='red' /></button>
                     </div>
                   </div>
                 </li>
