@@ -76,11 +76,11 @@ const mainPage = () => {
   const getPriorityColor = (priority) => {
     switch (priority) {
       case "High":
-        return "text-red-600 bg-red-600/25 ml-3 rounded-md p-1 w-fit text-sm";
+        return "text-red-500 bg-red-100 ml-3 rounded-md p-1 w-fit text-sm";
       case "Medium":
-        return "text-yellow-600 bg-yellow-600/25 ml-3  rounded-md p-1 w-fit text-sm";
+        return "text-yellow-500 bg-yellow-100 ml-3  rounded-md p-1 w-fit text-sm";
       case "Low":
-        return "text-green-600 bg-green-600/25 ml-3  rounded-md p-1 w-fit text-sm";
+        return "text-green-500 bg-green-100 ml-3  rounded-md p-1 w-fit text-sm";
       default:
         return "text-gray-500";
     }
@@ -131,15 +131,17 @@ const mainPage = () => {
                 <h2 className="text-xl text-center font-semibold mb-2">Add New Task</h2>
 
                 {/* Show Error Message */}
-                {error && (
-                  <p className="text-red-500 bg-red-100 border border-red-400 p-3 rounded-xl w-fit text-center mb-3 mx-auto">
-                    {error}
-                  </p>
-                )}
+                <div className='flex justify-center items-center ml-6'>
+                  {error && (
+                    <p className="text-red-500 bg-red-100 border border-red-400 p-3 rounded-xl w-fit text-center mx-auto">
+                      {error}
+                    </p>
+                  )}
+                </div>
 
                 {/* Form */}
                 <div className='flex justify-center items-center'>
-                    <form  onSubmit={handleSubmit} className='flex flex-col gap-4 mt-5 w-1/2'>
+                    <form  onSubmit={handleSubmit} className='flex justify-center flex-col gap-4 mt-5 w-1/2'>
                       <input 
                       type="text" 
                       placeholder="task title"
