@@ -132,7 +132,7 @@ const mainPage = () => {
 
                 {/* Show Error Message */}
                 {error && (
-                  <p className="text-red-500 bg-red-100 border border-red-400 p-2 rounded mb-3">
+                  <p className="text-red-500 bg-red-100 border border-red-400 p-3 rounded-xl w-fit text-center mb-3 mx-auto">
                     {error}
                   </p>
                 )}
