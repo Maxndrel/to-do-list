@@ -5,10 +5,13 @@ import { SearchIcon, Add02Icon, TickDouble03Icon, PropertyEditIcon, Delete02Icon
 import { useState } from 'react';
 
 const mainPage = () => {
+
+
+
+
   const [isOpen, setIsOpen] = useState(false);
   const [task, setTask] = useState([""]);
-    
-  
+
   const [tasks, setTasks] = useState([]); // stores all tasks
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -26,23 +29,47 @@ const mainPage = () => {
     
   }
 
+  // Handle input change
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
    const addTask = (e) => {
     e.preventDefault();
 
     // Validation check
-    if (!title || !description || !priority || !dueDateTime) {
-      setError("⚠️ Please fill in all fields before adding a task.");
+    if (
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.priority.trim() ||
+      !formData.dueDateTime.trim()
+    ) {
+      alert("Please fill in all fields!");
       return;
     }
 
-    // If all fields are filled
-    const newTask = {
-      title,
-      description,
-      priority,
-      dueDateTime,
-      createdAt: new Date().toISOString(),
-    };
+     if (editIndex !== null) {
+      // Update existing task
+      const updatedTasks = [...tasks];
+      updatedTasks[editIndex] = {
+        ...formData,
+        createdAt: tasks[editIndex].createdAt, // keep original creation time
+        updatedAt: new Date().toLocaleString(), // new updated time
+      };
+      setTasks(updatedTasks);
+      setEditIndex(null); // exit edit mode
+    } else {
+      // If all fields are filled
+      const newTask = {
+        title,
+        description,
+        priority,
+        dueDateTime,
+        createdAt: new Date().toISOString(),
+      };
+      setTasks((prev) => [...prev, newTask]);
+    }
 
     setTasks([...tasks, newTask]);
     setError("");
@@ -60,6 +87,18 @@ const mainPage = () => {
   const deleteTask = (indexToDelete) => {
     const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
     setTasks(updatedTasks);
+  };
+
+  // ✏️ Edit Task
+  const editTask = (index) => {
+    const taskToEdit = tasks[index];
+    setFormData({
+      title: taskToEdit.title,
+      description: taskToEdit.description,
+      priority: taskToEdit.priority,
+      dueDateTime: taskToEdit.dueDateTime,
+    });
+    setEditIndex(index);
   };
 
   // Helper function to format date & time
@@ -227,7 +266,7 @@ const mainPage = () => {
 
                     <div className='flex w-fit items-center gap-3'>
                       <button
-                      
+                      onClick={() => editTask(index)}
                       ><HugeiconsIcon icon={PropertyEditIcon} /></button>
                       <button
                       onClick={() => deleteTask(index)}
