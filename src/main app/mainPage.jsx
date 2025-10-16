@@ -26,12 +26,6 @@ const mainPage = () => {
     
   }
 
-  const handleAddTask = () => {
-    // Validation check
-    
-
-  };
-
    const addTask = (e) => {
     e.preventDefault();
 
@@ -60,6 +54,12 @@ const mainPage = () => {
     setDueDateTime("");
 
     setIsOpen(false);
+  };
+
+   // Delete function
+  const deleteTask = (indexToDelete) => {
+    const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
+    setTasks(updatedTasks);
   };
 
   // Helper function to format date & time
@@ -226,7 +226,9 @@ const mainPage = () => {
                     </div>
 
                     <div className='flex w-fit items-center gap-3'>
-                      <button><HugeiconsIcon icon={PropertyEditIcon} /></button>
+                      <button
+                      onClick={() => deleteTask(index)}
+                      ><HugeiconsIcon icon={PropertyEditIcon} /></button>
                       <button><HugeiconsIcon icon={Delete02Icon} color='red' /></button>
                     </div>
                   </div>
