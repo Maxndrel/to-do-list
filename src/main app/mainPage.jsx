@@ -18,6 +18,7 @@ const mainPage = () => {
   const [priority, setPriority] = useState("");
   const [dueDateTime, setDueDateTime] = useState("");
   const [error, setError] = useState("");
+   const [editIndex, setEditIndex] = useState(null);
   
   // function to add a new task
   const handleSubmit = (e) => {
@@ -39,13 +40,8 @@ const mainPage = () => {
     e.preventDefault();
 
     // Validation check
-    if (
-      !formData.title.trim() ||
-      !formData.description.trim() ||
-      !formData.priority.trim() ||
-      !formData.dueDateTime.trim()
-    ) {
-      alert("Please fill in all fields!");
+    if (!title || !description || !priority || !dueDateTime) {
+      setError("⚠️ Please fill in all fields before adding a task.");
       return;
     }
 
@@ -53,7 +49,7 @@ const mainPage = () => {
       // Update existing task
       const updatedTasks = [...tasks];
       updatedTasks[editIndex] = {
-        ...formData,
+        ...task,
         createdAt: tasks[editIndex].createdAt, // keep original creation time
         updatedAt: new Date().toLocaleString(), // new updated time
       };
@@ -67,6 +63,7 @@ const mainPage = () => {
         priority,
         dueDateTime,
         createdAt: new Date().toISOString(),
+        isDone: false,
       };
       setTasks((prev) => [...prev, newTask]);
     }
@@ -125,10 +122,12 @@ const mainPage = () => {
     }
   };
 
-  const [isDone, setIsDone] = useState(false); 
-  const toggleDone = () => {
-    setIsDone(!isDone);
-  };
+  const toggleDone = (index) => {
+  const updated = tasks.map((t, i) =>
+    i === index ? { ...t, isDone: !t.isDone } : t
+  );
+  setTasks(updated);
+};
 
   
   
@@ -187,7 +186,7 @@ const mainPage = () => {
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
                       required 
-                      class="border-2 rounded-md p-2 w-100"/>
+                      className="border-2 rounded-md p-2 w-100"/>
 
                       <input 
                       type="text" 
@@ -220,7 +219,7 @@ const mainPage = () => {
                       <div className='flex gap-2'>
                         <button 
                         type="submit" 
-                        onClick={addTask}                    
+                        onSubmit={addTask}                   
                         class="border-2 rounded-lg p-2 bg-sky-950 hover:bg-sky-900 text-white ">
                           Add Task
                         </button>
@@ -250,7 +249,7 @@ const mainPage = () => {
                   <div className='flex justify-center items-center'>
                     <button 
                     type="button"
-                    onClick={toggleDone}
+                    onClick={() => toggleDone(index)}
                     className='w-[25px] h-[25px] rounded-sm border-1 p-0.5'> {isDone && <span className=""><HugeiconsIcon icon={TickDouble03Icon } size={18}/></span>}</button>
                   </div>
 
@@ -260,7 +259,9 @@ const mainPage = () => {
                         <h4 className={'font-bold uppercase text-lg'}>{task.title} </h4>
                         <span className={getPriorityColor(task.priority)}>{task.priority}</span>
                       </div>
-                      <p className={`${isDone ? "line-through text-gray-500" : "text-black"}`}>{task.description}</p>
+                      <p className={task.isDone ? "line-through text-gray-500" : "text-black"}>
+                        {task.description}
+                      </p>
                       <p className='text-sm'>Due: {formatDateTime(task.dueDateTime)} <span className='ml-10'>Created: {formatDateTime(task.createdAt)}</span></p>
                     </div>
 
