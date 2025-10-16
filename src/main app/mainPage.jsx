@@ -19,7 +19,7 @@ const MainPage = () => {
   const [error, setError] = useState('');
   const [editIndex, setEditIndex] = useState(null);
 
-  // ✅ Add or Edit Task
+  // Add or Edit Task
   const addTask = (e) => {
     e.preventDefault();
 
@@ -63,13 +63,13 @@ const MainPage = () => {
     setIsOpen(false);
   };
 
-  // ✅ Delete Task
+  // Delete Task
   const deleteTask = (indexToDelete) => {
     const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
     setTasks(updatedTasks);
   };
 
-  // ✅ Edit Task
+  // Edit Task
   const editTask = (index) => {
     const taskToEdit = tasks[index];
     setTitle(taskToEdit.title);
@@ -80,7 +80,7 @@ const MainPage = () => {
     setIsOpen(true);
   };
 
-  // ✅ Toggle Task Completion
+  // Toggle Task Completion
   const toggleDone = (index) => {
     const updated = tasks.map((t, i) =>
       i === index ? { ...t, isDone: !t.isDone } : t
@@ -88,7 +88,7 @@ const MainPage = () => {
     setTasks(updated);
   };
 
-  // ✅ Helper: Format date/time
+  // Helper: Format date/time
   const formatDateTime = (dateTime) => {
     if (!dateTime) return '';
     const date = new Date(dateTime);
@@ -98,7 +98,7 @@ const MainPage = () => {
     });
   };
 
-  // ✅ Priority Color
+  // Priority Color
   const getPriorityColor = (priority) => {
     switch (priority) {
       case 'High':
@@ -113,7 +113,7 @@ const MainPage = () => {
   };
 
   return (
-    <body className="flex gap-[10px] flex-row items-center h-full w-full mx-3 mt-1">
+    <div className="flex gap-[10px] flex-row items-center h-full w-full mx-3 mt-1">
       {/* Sidebar */}
       <section className="w-[20%] h-150 border fixed">
         <Sidebar />
@@ -302,7 +302,7 @@ const MainPage = () => {
           </ul>
         </div>
       </section>
-    </body>
+    </div>
   );
 };
 
