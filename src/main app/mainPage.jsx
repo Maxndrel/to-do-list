@@ -113,14 +113,14 @@ const MainPage = () => {
   };
 
   return (
-    <body className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-1">
+    <body className="flex gap-[10px] flex-row items-center h-full w-full mx-3 mt-1">
       {/* Sidebar */}
-      <section className="w-[20%] h-150 border-2 fixed">
+      <section className="w-[20%] h-150 border fixed">
         <Sidebar />
       </section>
 
       {/* Main Section */}
-      <section className="w-[80%] h-150 border-2 pr-15 pl-15 ml-[18rem]">
+      <section className="w-[80%] h-150 border ml-[18rem] px-5">
         <div className="fixed backdrop-blur-sm bg-white w-[70%]">
           {/* Header */}
           <section className="item flex justify-between">
