@@ -232,7 +232,7 @@ const mainPage = () => {
                       <button
                       onClick={() => deleteTask(index)}
                       >
-                      <HugeiconsIcon icon={Delete02Icon} color='red' /></button>
+                      <HugeiconsIcon icon={Delete02Icon} color='red'/></button>
                     </div>
                   </div>
                 </li>
