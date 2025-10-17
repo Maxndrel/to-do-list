@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/Sidebar';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -10,14 +10,43 @@ import {
 } from '@hugeicons/core-free-icons';
 
 const MainPage = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // popup form visibility
   const [tasks, setTasks] = useState([]); // store all tasks
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [priority, setPriority] = useState('');
-  const [dueDateTime, setDueDateTime] = useState('');
-  const [error, setError] = useState('');
-  const [editIndex, setEditIndex] = useState(null);
+  const [title, setTitle] = useState(''); // task title
+  const [description, setDescription] = useState(''); // task description
+  const [priority, setPriority] = useState(''); // task priority
+  const [dueDateTime, setDueDateTime] = useState(''); // task deadline
+  const [error, setError] = useState(''); // error message
+  const [editIndex, setEditIndex] = useState(null); // index of task being edited
+  const [currentDate, setCurrentDate] = useState(new Date()); // current date
+
+
+  useEffect(() => {
+    // Function to calculate milliseconds until next midnight
+    const getTimeUntilMidnight = () => {
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(now.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      return tomorrow - now;
+    };
+
+    // Schedule an update at midnight
+    const timeout = setTimeout(() => {
+      setCurrentDate(new Date());
+    }, getTimeUntilMidnight());
+
+    // Cleanup when component unmounts
+    return () => clearTimeout(timeout);
+  }, [currentDate]);
+
+  const formattedDate = currentDate.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
 
   // ✅ Add or Edit Task
   const addTask = (e) => {
@@ -128,7 +157,7 @@ const MainPage = () => {
               <h1 className="text-2xl font-semibold">Today's Tasks</h1>
               <p className="text-sm">Manage your tasks efficiently</p>
             </div>
-            <p className="pt-8 text-sm">Friday, October 12, 2025</p>
+            <p className="pt-8 text-sm">{formattedDate}</p>
           </div>
 
           {/* Search + Add */}
