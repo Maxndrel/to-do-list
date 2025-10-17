@@ -19,7 +19,7 @@ const MainPage = () => {
   const [error, setError] = useState('');
   const [editIndex, setEditIndex] = useState(null);
 
-  // Add or Edit Task
+  // ✅ Add or Edit Task
   const addTask = (e) => {
     e.preventDefault();
 
@@ -113,23 +113,23 @@ const MainPage = () => {
   };
 
   return (
-    <div className="flex gap-[10px] flex-row items-center h-full w-full mx-3 mt-1">
+    <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-1">
       {/* Sidebar */}
-      <section className="w-[20%] h-150 border fixed">
+      <div className="w-[20%] h-150 border-2 fixed">
         <Sidebar />
-      </section>
+      </div>
 
       {/* Main Section */}
-      <section className="w-[80%] h-150 border ml-[18rem] px-5">
+      <div className="w-[80%] h-150 border-2 pr-15 pl-15 ml-[18rem]">
+        {/* Header */}
         <div className="fixed backdrop-blur-sm bg-white w-[70%]">
-          {/* Header */}
-          <section className="item flex justify-between">
+          <div className="item flex justify-between">
             <div className="pt-5 pb-7">
               <h1 className="text-2xl font-semibold">Today's Tasks</h1>
               <p className="text-sm">Manage your tasks efficiently</p>
             </div>
             <p className="pt-8 text-sm">Friday, October 12, 2025</p>
-          </section>
+          </div>
 
           {/* Search + Add */}
           <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg">
@@ -301,7 +301,7 @@ const MainPage = () => {
             ))}
           </ul>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
