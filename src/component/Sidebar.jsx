@@ -7,11 +7,13 @@ const Sidebar = () => {
   return (
     <>
       <div className="flex gap-[20px] flex-col items-center pl-5 pr-5">
-            <div className="w-[250px] grow mb2">
-                <h2 className="text-xl font-semibold pt-6 pb-6 border-b-1 border-gray-300 mb-1">
-                    My Tasks
-                </h2>
-                <div className='pt-3 pb-3 border-b-1 border-gray-300'>
+            <div className="w-[250px] grow">
+                <div className='pt-3 '>
+                    <h2 className="text-xl text-white font-semibold py-5 pl-2 mb-2 rounded-md bg-sky-950">
+                        My Tasks
+                    </h2>
+                </div>
+                <div className='py-3 border-y-1 border-gray-300'>
                     <h3>Todays Progress</h3>
                     <div className="mt-1">
                     <Progressbar />
@@ -21,7 +23,7 @@ const Sidebar = () => {
 
 
             <div className="w-[250px] grow mb-2">
-                <h3 className='text-lg mb-2'>Categories</h3>
+                <h3 className='text-md text-white font-semibold py-2 pl-2 rounded-md mb-2 bg-sky-950'>Categories</h3>
                 <div>
                     <div className='flex justify-between mb-2'>
                         <div className='flex gap-2 align-center'>
@@ -70,7 +72,7 @@ const Sidebar = () => {
 
 
             <div className="w-[250px] grow">
-                <h3 className='text-lg mb-2'>Priority</h3>
+                <h3 className='text-md text-white font-semibold py-2 pl-2 rounded-md mb-2 bg-sky-950'>Priority</h3>
                 <div>
                     <div className='flex justify-between mb-2'>
                         <div className='flex gap-2 align-center'>

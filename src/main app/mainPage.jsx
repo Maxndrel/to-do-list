@@ -179,10 +179,10 @@ const MainPage = () => {
               </button>
             </form>
             <button
-              className="p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg ml-2 text-white flex gap-1"
+              className="p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg ml-2 text-white text-md font-medium flex gap-1"
               onClick={() => setIsOpen(true)}
             >
-              <HugeiconsIcon icon={Add02Icon} size={18} className="mt-0.5" />{' '}
+              <HugeiconsIcon icon={Add02Icon} size={16} className="mt-0.5" />{' '}
               {editIndex !== null ? 'Edit Task' : 'Add Task'}
             </button>
           </div>
