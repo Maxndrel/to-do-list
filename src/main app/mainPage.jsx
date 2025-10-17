@@ -147,12 +147,12 @@ const MainPage = () => {
   return (
     <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-5">
       {/* Sidebar */}
-      <div className="w-[20%] h-150 fixed rounded-xl shadow-[0_0_25px_rgba(0,0,0,0.25)]">
+      <div className="w-[20%] h-150 fixed rounded-xl shadow-[0_0_25px_rgba(0,0,0,0.20)]">
         <Sidebar />
       </div>
 
       {/* Main Section */}
-      <div className="w-[80%] h-150 border-2 pr-15 pl-15 ml-[18rem]">
+      <div className="w-[80%] h-150 pr-15 pl-15 ml-[18rem] rounded-xl shadow-[0_0_10px_rgba(0,0,0,0.15)] overflow-y-auto pb-10">
         {/* Header */}
         <div className="fixed backdrop-blur-sm bg-white w-[70%]">
           <div className="item flex justify-between">
