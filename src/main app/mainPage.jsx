@@ -157,7 +157,7 @@ const MainPage = () => {
               <h1 className="text-2xl font-semibold">Today's Tasks</h1>
               <p className="text-sm">Manage your tasks efficiently</p>
             </div>
-            <p className="pt-8 text-sm">{formattedDate}</p>
+            <p className="pt-8 text-base">{formattedDate}</p>
           </div>
 
           {/* Search + Add */}
