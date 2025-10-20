@@ -28,6 +28,10 @@ const MainPage = () => {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
 
   useEffect(() => {
     // Function to calculate milliseconds until next midnight
