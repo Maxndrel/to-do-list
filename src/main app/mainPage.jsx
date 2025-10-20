@@ -22,18 +22,6 @@ const MainPage = () => {
 
 
   useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
-    if (savedTasks) {
-      setTasks(savedTasks);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
-
-  useEffect(() => {
     // Function to calculate milliseconds until next midnight
     const getTimeUntilMidnight = () => {
       const now = new Date();
@@ -58,6 +46,17 @@ const MainPage = () => {
     month: 'long',
     day: 'numeric',
   });
+
+  useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (savedTasks) {
+      setTasks(savedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
 
   // ✅ Add or Edit Task
