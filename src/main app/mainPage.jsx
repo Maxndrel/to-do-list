@@ -158,7 +158,7 @@ const MainPage = () => {
   return (
     <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-5">
       {/* Sidebar */}
-      <div className="w-[20%] h-150 fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
+      <div className="w-[20%] h-[94%] fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
         <Sidebar />
       </div>
 
@@ -180,11 +180,11 @@ const MainPage = () => {
               <input
                 type="text"
                 placeholder="Search task"
-                className="border-2 rounded-md p-2 w-180 relative"
+                className="border-2 rounded-md p-2 w-[50rem] relative"
               />
               <button
                 type="submit"
-                className="rounded-xl p-2 text-white absolute right-45 top-29.5"
+                className="rounded-xl p-2 text-white absolute right-[15%] top-[66%]"
               >
                 <HugeiconsIcon icon={SearchIcon} size={24} color="grey" />
               </button>
