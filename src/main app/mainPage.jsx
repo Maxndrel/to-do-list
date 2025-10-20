@@ -22,6 +22,14 @@ const MainPage = () => {
 
 
   useEffect(() => {
+    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+    if (savedTasks) {
+      setTasks(savedTasks);
+    }
+  }, []);
+
+
+  useEffect(() => {
     // Function to calculate milliseconds until next midnight
     const getTimeUntilMidnight = () => {
       const now = new Date();
