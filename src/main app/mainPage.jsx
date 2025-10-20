@@ -156,14 +156,14 @@ const MainPage = () => {
 
 
   return (
-    <div className="flex gap-[10px] flex-row items-center flex-nowrap h-full mx-3 mt-5">
+    <div className="flex gap-[10px] flex-row h-full mx-3 mt-5">
       {/* Sidebar */}
       <div className="w-[20%] h-[94%] fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
         <Sidebar />
       </div>
 
       {/* Main Section */}
-      <div className="w-[80%] h-150 px-12 ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
+      <div className="w-[77%] fixed h-[94%] px-12 ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
         {/* Header */}
         <div className="fixed backdrop-blur-sm bg-white w-[70%]">
           <div className="item flex justify-between">
