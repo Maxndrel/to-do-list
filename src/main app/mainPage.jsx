@@ -10,20 +10,27 @@ import {
   Delete02Icon,
 } from '@hugeicons/core-free-icons';
 
+/**
+ * MainPage Component
+ * This component renders the main to-do list application interface.
+ * It includes functionality for adding, editing, deleting, and filtering tasks,
+ * with localStorage persistence and user alerts.
+ */
 const MainPage = () => {
-  const [isOpen, setIsOpen] = useState(false); // popup form visibility
-  const [tasks, setTasks] = useState([]); // store all tasks
-  const [title, setTitle] = useState(''); // task title
-  const [description, setDescription] = useState(''); // task description
-  const [priority, setPriority] = useState(''); // task priority
-  const [dueDateTime, setDueDateTime] = useState(''); // task deadline
-  const [error, setError] = useState(''); // error message
-  const [editIndex, setEditIndex] = useState(null); // index of task being edited
-  const [currentDate, setCurrentDate] = useState(new Date()); // current date
-  const [searchQuery, setSearchQuery] = useState(''); // search query
-  const [filter, setFilter] = useState('all'); // filter: 'all', 'active', 'completed'
-  const [alert, setAlert] = useState({ show: false, message: '', type: 'success' }); // alert state
-  const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null }); // confirmation dialog state
+  // State variables for managing the application's data and UI
+  const [isOpen, setIsOpen] = useState(false); // Controls visibility of the add/edit task popup form
+  const [tasks, setTasks] = useState([]); // Array to store all tasks
+  const [title, setTitle] = useState(''); // Current task title input
+  const [description, setDescription] = useState(''); // Current task description input
+  const [priority, setPriority] = useState(''); // Current task priority input
+  const [dueDateTime, setDueDateTime] = useState(''); // Current task due date and time input
+  const [error, setError] = useState(''); // Error message for form validation
+  const [editIndex, setEditIndex] = useState(null); // Index of the task being edited (null if adding new)
+  const [currentDate, setCurrentDate] = useState(new Date()); // Current date for display
+  const [searchQuery, setSearchQuery] = useState(''); // Search query for filtering tasks
+  const [filter, setFilter] = useState('all'); // Filter type: 'all', 'active', 'completed', etc.
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'success' }); // State for displaying alerts
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null }); // State for delete confirmation dialog
 
 
   useEffect(() => {
@@ -80,7 +87,7 @@ const MainPage = () => {
   }, []);
 
 
-  // ✅ Handle Form Submission (Add or Edit)
+  // Handle Form Submission (Add or Edit)
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -163,8 +170,8 @@ const MainPage = () => {
     console.log('Task deleted and saved to localStorage');
 
     // Show success alert
-    setAlert({ show: true, message: 'Task deleted successfully!', type: 'danger' });
-    setTimeout(() => setAlert({ show: false, message: '', type: 'danger' }), 2000);
+    setAlert({ show: true, message: 'Task deleted successfully!', type: 'success' });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 2000);
     setConfirmDelete({ show: false, index: null });
   };
 
