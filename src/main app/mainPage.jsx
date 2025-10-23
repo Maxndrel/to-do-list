@@ -22,6 +22,7 @@ const MainPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date()); // current date
   const [searchQuery, setSearchQuery] = useState(''); // search query
   const [filter, setFilter] = useState('all'); // filter: 'all', 'active', 'completed'
+  const [alert, setAlert] = useState({ show: false, message: '' }); // alert state
 
 
   useEffect(() => {
@@ -110,6 +111,10 @@ const MainPage = () => {
     setTasks(updatedTasks);
     saveTasksToStorage(updatedTasks);
     console.log('Task added and saved to localStorage:', newTask);
+
+    // Show success alert
+    setAlert({ show: true, message: 'Task added successfully!' });
+    setTimeout(() => setAlert({ show: false, message: '' }), 2000);
   };
 
   // Edit Existing Task
@@ -199,7 +204,7 @@ const MainPage = () => {
     <div className="flex gap-[10px] flex-col md:flex-row h-full mx-3 mt-5">
       {/* Sidebar */}
       <div className="w-full md:w-[25%] lg:w-[20%] h-[94%] md:fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
-        <Sidebar tasks={tasks} setFilter={setFilter} />
+        <Sidebar tasks={tasks} setFilter={setFilter} filter={filter} />
       </div>
 
       {/* Main Section */}
@@ -240,6 +245,13 @@ const MainPage = () => {
             </button>
           </div>
         </div>
+
+        {/* Success Alert */}
+        {alert.show && (
+          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+            {alert.message}
+          </div>
+        )}
 
         {/* Popup Form */}
         {isOpen && (
