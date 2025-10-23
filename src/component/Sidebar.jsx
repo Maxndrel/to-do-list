@@ -3,7 +3,7 @@ import Progressbar from './ui_logic/Progressbar'
 import { HugeiconsIcon } from '@hugeicons/react';
 import { TaskDaily01Icon, PhoneCheckIcon, Clock01Icon } from '@hugeicons/core-free-icons';
 
-const Sidebar = () => {
+const Sidebar = ({ tasks }) => {
   return (
     <>
       <div className="flex gap-[20px] flex-col items-center pl-5 pr-5">
@@ -16,7 +16,7 @@ const Sidebar = () => {
                 <div className='py-3 border-y-1 border-gray-300'>
                     <h3>Todays Progress</h3>
                     <div className="mt-1">
-                    <Progressbar />
+                    <Progressbar totalTasks={tasks.length} completedTasks={tasks.filter(task => task.isDone).length} />
                     </div>
                 </div>
             </div>

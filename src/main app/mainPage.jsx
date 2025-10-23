@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/Sidebar';
+import Progressbar from '../component/ui_logic/Progressbar';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   SearchIcon,
@@ -197,7 +198,7 @@ const MainPage = () => {
     <div className="flex gap-[10px] flex-row h-full mx-3 mt-5">
       {/* Sidebar */}
       <div className="w-[20%] h-[94%] fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
-        <Sidebar />
+        <Sidebar tasks={tasks} />
       </div>
 
       {/* Main Section */}
@@ -323,8 +324,13 @@ const MainPage = () => {
           </div>
         )}
 
-        {/* Task List */}
+        {/* Progress Bar */}
         <div className="mt-6 pt-43">
+          <Progressbar totalTasks={tasks.length} completedTasks={tasks.filter(task => task.isDone).length} />
+        </div>
+
+        {/* Task List */}
+        <div className="mt-6">
           <ul className="mt-2">
             {tasks.filter(task => task.title.toLowerCase().includes(searchQuery.toLowerCase())).map((task, index) => (
               <li
