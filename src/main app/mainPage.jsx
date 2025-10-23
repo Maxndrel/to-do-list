@@ -324,11 +324,6 @@ const MainPage = () => {
           </div>
         )}
 
-        {/* Progress Bar */}
-        <div className="mt-6 pt-43">
-          <Progressbar totalTasks={tasks.length} completedTasks={tasks.filter(task => task.isDone).length} />
-        </div>
-
         {/* Task List */}
         <div className="mt-6">
           <ul className="mt-2">
