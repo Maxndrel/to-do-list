@@ -19,6 +19,7 @@ const MainPage = () => {
   const [error, setError] = useState(''); // error message
   const [editIndex, setEditIndex] = useState(null); // index of task being edited
   const [currentDate, setCurrentDate] = useState(new Date()); // current date
+  const [searchQuery, setSearchQuery] = useState(''); // search query
 
 
   useEffect(() => {
@@ -38,7 +39,7 @@ const MainPage = () => {
 
     // Cleanup when component unmounts
     return () => clearTimeout(timeout);
-  }, [currentDate]);
+  }, []); // Removed [currentDate] to prevent re-renders
 
   const formattedDate = currentDate.toLocaleDateString('en-US', {
     weekday: 'long',
@@ -47,20 +48,36 @@ const MainPage = () => {
     day: 'numeric',
   });
 
-  useEffect(() => {
-    const savedTasks = JSON.parse(localStorage.getItem("tasks"));
-    if (savedTasks) {
-      setTasks(savedTasks);
+  // Load tasks from localStorage
+  const loadTasksFromStorage = () => {
+    try {
+      const savedTasks = JSON.parse(localStorage.getItem("tasks"));
+      if (Array.isArray(savedTasks)) {
+        setTasks(savedTasks);
+        console.log('Loaded tasks from localStorage:', savedTasks);
+      }
+    } catch (error) {
+      console.error('Error loading tasks from localStorage:', error);
     }
+  };
+
+  // Save tasks to localStorage
+  const saveTasksToStorage = (tasksToSave) => {
+    try {
+      localStorage.setItem("tasks", JSON.stringify(tasksToSave));
+      console.log('Successfully saved tasks to localStorage:', tasksToSave);
+    } catch (error) {
+      console.error('Error saving tasks to localStorage:', error);
+    }
+  };
+
+  useEffect(() => {
+    loadTasksFromStorage();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
 
-
-  // ✅ Add or Edit Task
-  const addTask = (e) => {
+  // ✅ Handle Form Submission (Add or Edit)
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!title || !description || !priority || !dueDateTime) {
@@ -69,32 +86,49 @@ const MainPage = () => {
     }
 
     if (editIndex !== null) {
-      // Edit mode
-      const updatedTasks = [...tasks];
-      updatedTasks[editIndex] = {
-        title,
-        description,
-        priority,
-        dueDateTime,
-        createdAt: tasks[editIndex].createdAt,
-        updatedAt: new Date().toLocaleString(),
-        isDone: tasks[editIndex].isDone,
-      };
-      setTasks(updatedTasks);
-      setEditIndex(null);
+      handleEditTask();
     } else {
-      // Add new task
-      const newTask = {
-        title,
-        description,
-        priority,
-        dueDateTime,
-        createdAt: new Date().toISOString(),
-        isDone: false,
-      };
-      setTasks((prev) => [...prev, newTask]);
+      handleAddTask();
     }
 
+    resetForm();
+  };
+
+  // Add New Task
+  const handleAddTask = () => {
+    const newTask = {
+      title,
+      description,
+      priority,
+      dueDateTime,
+      createdAt: new Date().toISOString(),
+      isDone: false,
+    };
+    const updatedTasks = [...tasks, newTask];
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+    console.log('Task added and saved to localStorage:', newTask);
+  };
+
+  // Edit Existing Task
+  const handleEditTask = () => {
+    const updatedTasks = [...tasks];
+    updatedTasks[editIndex] = {
+      ...updatedTasks[editIndex],
+      title,
+      description,
+      priority,
+      dueDateTime,
+      updatedAt: new Date().toLocaleString(),
+    };
+    setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+    console.log('Task edited and saved to localStorage:', updatedTasks[editIndex]);
+    setEditIndex(null);
+  };
+
+  // Reset Form Fields
+  const resetForm = () => {
     setError('');
     setTitle('');
     setDescription('');
@@ -107,6 +141,8 @@ const MainPage = () => {
   const deleteTask = (indexToDelete) => {
     const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
     setTasks(updatedTasks);
+    saveTasksToStorage(updatedTasks);
+    console.log('Task deleted and saved to localStorage');
   };
 
   // Edit Task
@@ -123,9 +159,11 @@ const MainPage = () => {
   // Toggle Task Completion
   const toggleDone = (index) => {
     const updated = tasks.map((t, i) =>
-      i === index ? { ...t, isDone: !t.isDone } : t
+      i === index ? { ...t, isDone: !t.isDone, updatedAt: new Date().toLocaleString() } : t
     );
     setTasks(updated);
+    saveTasksToStorage(updated);
+    console.log('Task completion toggled and saved to localStorage');
   };
 
   // Helper: Format date/time
@@ -146,7 +184,7 @@ const MainPage = () => {
       case 'Medium':
         return 'text-yellow-500 bg-yellow-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
       case 'Low':
-        return 'text-green-blue bg-blue-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
+        return 'text-blue-500 bg-blue-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
       default:
         return 'text-gray-500';
     }
@@ -176,10 +214,12 @@ const MainPage = () => {
 
           {/* Search + Add */}
           <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg">
-            <form>
+            <form onSubmit={(e) => e.preventDefault()}>
               <input
                 type="text"
                 placeholder="Search task"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="border-2 rounded-md p-2 w-[50rem] relative"
               />
               <button
@@ -216,7 +256,7 @@ const MainPage = () => {
 
               {/* Form */}
               <form
-                onSubmit={addTask}
+                onSubmit={handleSubmit}
                 className="flex justify-center flex-col gap-4 mt-5 w-1/2 mx-auto"
               >
                 <input
@@ -286,7 +326,7 @@ const MainPage = () => {
         {/* Task List */}
         <div className="mt-6 pt-43">
           <ul className="mt-2">
-            {tasks.map((task, index) => (
+            {tasks.filter(task => task.title.toLowerCase().includes(searchQuery.toLowerCase())).map((task, index) => (
               <li
                 key={index}
                 className="bg-gray-100 p-5 rounded-lg mb-2 flex gap-4"
@@ -325,7 +365,7 @@ const MainPage = () => {
                     <p className="text-sm">
                       Due: {formatDateTime(task.dueDateTime)}{' '}
                       <span className="ml-10">
-                        Created: {formatDateTime(task.createdAt)}
+                        {task.updatedAt ? `Updated: ${formatDateTime(task.updatedAt)}` : `Created: ${formatDateTime(task.createdAt)}`}
                       </span>
                     </p>
                   </div>
