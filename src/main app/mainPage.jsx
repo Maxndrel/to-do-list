@@ -196,16 +196,16 @@ const MainPage = () => {
 
 
   return (
-    <div className="flex gap-[10px] flex-row h-full mx-3 mt-5">
+    <div className="flex gap-[10px] flex-col md:flex-row h-full mx-3 mt-5">
       {/* Sidebar */}
-      <div className="w-[20%] h-[94%] fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
+      <div className="w-full md:w-[25%] lg:w-[20%] h-[94%] md:fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
         <Sidebar tasks={tasks} setFilter={setFilter} />
       </div>
 
       {/* Main Section */}
-      <div className="w-[77%] fixed h-[94%] px-12 ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
+      <div className="w-full md:w-[72%] lg:w-[77%] md:fixed h-[94%] px-4 md:px-12 md:ml-[18rem] lg:ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
         {/* Header */}
-        <div className="fixed backdrop-blur-sm bg-white w-[70%]">
+        <div className="fixed shadow-[0_2px_0_rgba(128,128,128,0.10)] backdrop-blur-sm bg-white w-full md:w-[70%] lg:w-[70%]">
           <div className="item flex justify-between">
             <div className="pt-5 pb-7">
               <h1 className="text-2xl font-semibold">Today's Tasks</h1>
@@ -215,24 +215,24 @@ const MainPage = () => {
           </div>
 
           {/* Search + Add */}
-          <div className="flex justify-center items-center bg-gray-100 p-4 rounded-lg">
-            <form onSubmit={(e) => e.preventDefault()}>
+          <div className="flex flex-col md:flex-row justify-center items-center bg-gray-100 p-4 rounded-lg gap-4 md:gap-0">
+            <form onSubmit={(e) => e.preventDefault()} className="w-full md:w-auto">
               <input
                 type="text"
                 placeholder="Search task"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="border-2 rounded-md p-2 w-[50rem] relative"
+                className="border-2 rounded-md p-2 w-full md:w-[50rem] relative"
               />
               <button
                 type="submit"
-                className="rounded-xl p-2 text-white absolute right-[15%] top-[66%]"
+                className="rounded-xl p-2 text-white absolute right-[15%] top-[66%] md:right-[15%] md:top-[66%]"
               >
                 <HugeiconsIcon icon={SearchIcon} size={24} color="grey" />
               </button>
             </form>
             <button
-              className="p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg ml-2 text-white text-md font-medium flex gap-1"
+              className="p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg w-full md:w-auto md:ml-2 text-white text-md font-medium flex gap-1 justify-center"
               onClick={() => setIsOpen(true)}
             >
               <HugeiconsIcon icon={Add02Icon} size={17} className="mt-0.5" />{' '}
@@ -326,7 +326,7 @@ const MainPage = () => {
         )}
 
         {/* Task List */}
-        <div className="mt-6">
+        <div className="mt-[12rem]">
           <ul className="mt-2">
             {tasks.filter(task => {
               const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
@@ -340,13 +340,13 @@ const MainPage = () => {
             }).map((task, index) => (
               <li
                 key={index}
-                className="bg-gray-100 p-5 rounded-lg mb-2 flex gap-4"
+                className="bg-gray-100 p-5 rounded-lg mb-2 flex flex-col md:flex-row gap-4"
               >
                 {/* Checkbox */}
                 <button
                   type="button"
                   onClick={() => toggleDone(index)}
-                  className="w-[25px] my-auto h-[25px] rounded-sm border p-0.5 flex justify-center items-center"
+                  className="w-[25px] my-auto h-[25px] rounded-sm border p-0.5 flex justify-center items-center self-start md:self-center"
                 >
                   {task.isDone && (
                     <HugeiconsIcon icon={TickDouble03Icon} size={18} />
@@ -354,9 +354,9 @@ const MainPage = () => {
                 </button>
 
                 {/* Task Details */}
-                <div className="flex justify-between w-full px-2">
-                  <div>
-                    <div className="flex items-center">
+                <div className="flex flex-col md:flex-row justify-between w-full px-2 gap-4">
+                  <div className="flex-1">
+                    <div className="flex flex-col md:flex-row md:items-center gap-2">
                       <h4 className="font-bold uppercase text-lg">
                         {task.title}
                       </h4>
@@ -375,14 +375,14 @@ const MainPage = () => {
                     </p>
                     <p className="text-sm">
                       Due: {formatDateTime(task.dueDateTime)}{' '}
-                      <span className="ml-10">
+                      <span className="ml-0 md:ml-10">
                         {task.updatedAt ? `Updated: ${formatDateTime(task.updatedAt)}` : `Created: ${formatDateTime(task.createdAt)}`}
                       </span>
                     </p>
                   </div>
 
                   {/* Edit / Delete */}
-                  <div className="flex w-fit items-center gap-3">
+                  <div className="flex w-fit items-center gap-3 self-end md:self-center">
                     <button onClick={() => editTask(index)}>
                       <HugeiconsIcon icon={PropertyEditIcon} />
                     </button>
