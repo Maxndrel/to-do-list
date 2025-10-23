@@ -21,6 +21,7 @@ const MainPage = () => {
   const [editIndex, setEditIndex] = useState(null); // index of task being edited
   const [currentDate, setCurrentDate] = useState(new Date()); // current date
   const [searchQuery, setSearchQuery] = useState(''); // search query
+  const [filter, setFilter] = useState('all'); // filter: 'all', 'active', 'completed'
 
 
   useEffect(() => {
@@ -198,7 +199,7 @@ const MainPage = () => {
     <div className="flex gap-[10px] flex-row h-full mx-3 mt-5">
       {/* Sidebar */}
       <div className="w-[20%] h-[94%] fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
-        <Sidebar tasks={tasks} />
+        <Sidebar tasks={tasks} setFilter={setFilter} />
       </div>
 
       {/* Main Section */}
@@ -327,7 +328,16 @@ const MainPage = () => {
         {/* Task List */}
         <div className="mt-6">
           <ul className="mt-2">
-            {tasks.filter(task => task.title.toLowerCase().includes(searchQuery.toLowerCase())).map((task, index) => (
+            {tasks.filter(task => {
+              const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase());
+              const matchesFilter = filter === 'all' ||
+                (filter === 'active' && !task.isDone) ||
+                (filter === 'completed' && task.isDone) ||
+                (filter === 'high' && task.priority === 'High') ||
+                (filter === 'medium' && task.priority === 'Medium') ||
+                (filter === 'low' && task.priority === 'Low');
+              return matchesSearch && matchesFilter;
+            }).map((task, index) => (
               <li
                 key={index}
                 className="bg-gray-100 p-5 rounded-lg mb-2 flex gap-4"

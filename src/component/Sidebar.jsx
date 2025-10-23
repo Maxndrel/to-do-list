@@ -3,7 +3,7 @@ import Progressbar from './ui_logic/Progressbar'
 import { HugeiconsIcon } from '@hugeicons/react';
 import { TaskDaily01Icon, PhoneCheckIcon, Clock01Icon } from '@hugeicons/core-free-icons';
 
-const Sidebar = ({ tasks }) => {
+const Sidebar = ({ tasks, setFilter }) => {
   return (
     <>
       <div className="flex gap-[20px] flex-col items-center pl-5 pr-5">
@@ -25,7 +25,7 @@ const Sidebar = ({ tasks }) => {
             <div className="w-[250px] grow mb-2">
                 <h3 className='text-md text-white font-semibold py-2 pl-2 rounded-md mb-2 bg-sky-950'>Categories</h3>
                 <div>
-                    <div className='flex justify-between mb-2'>
+                    <button onClick={() => setFilter('all')} className='flex justify-between mb-2 w-full'>
                         <div className='flex gap-2 align-center'>
                             <HugeiconsIcon
                                 icon={TaskDaily01Icon}
@@ -36,10 +36,10 @@ const Sidebar = ({ tasks }) => {
                                 All Tasks
                             </p>
                         </div>
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>20</p>
-                    </div>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>{tasks.length}</p>
+                    </button>
 
-                    <div className='flex justify-between mb-2'>
+                    <button onClick={() => setFilter('active')} className='flex justify-between mb-2 w-full'>
                         <div className='flex gap-2 align-center'>
                             <HugeiconsIcon
                                 icon={Clock01Icon}
@@ -50,10 +50,10 @@ const Sidebar = ({ tasks }) => {
                                 Active
                             </p>
                         </div>
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>0</p>
-                    </div>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>{tasks.filter(task => !task.isDone).length}</p>
+                    </button>
 
-                    <div className='flex justify-between'>
+                    <button onClick={() => setFilter('completed')} className='flex justify-between w-full'>
                         <div className='flex gap-2 align-center'>
                             <HugeiconsIcon
                                 icon={PhoneCheckIcon}
@@ -65,8 +65,8 @@ const Sidebar = ({ tasks }) => {
                             </p>
                         </div>
 
-                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>20</p>
-                    </div>
+                        <p className='p-1 w-[30px] rounded-2xl bg-gray-100 text-base text-center'>{tasks.filter(task => task.isDone).length}</p>
+                    </button>
                 </div>
             </div>
 
@@ -74,29 +74,29 @@ const Sidebar = ({ tasks }) => {
             <div className="w-[250px] grow">
                 <h3 className='text-md text-white font-semibold py-2 pl-2 rounded-md mb-2 bg-sky-950'>Priority</h3>
                 <div>
-                    <div className='flex justify-between mb-2'>
-                        <div className='flex gap-2 align-center'>
-                            <div className='w-[8px] h-[8px] rounded-xl bg-red-500 mt-1.5'/>
-                            <p className='text-base mb-2'>High</p>
-                        </div>
-                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>10</p>                   
-                    </div>
-
-                    <div className='flex justify-between mb-2'>
-                        <div className='flex gap-2 align-center'>
-                            <div className='w-[8px] h-[8px] rounded-xl bg-yellow-500 mt-1.5'/>
-                            <p className='text-base mb-2'>Medium</p>
-                        </div>
-                          <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>2</p>                  
-                    </div>
-
-                    <div className='flex justify-between'>
+                    <button onClick={() => setFilter('low')} className='flex justify-between mb-2 w-full'>
                     <div className='flex gap-2 align-center'>
                         <div className='w-[8px] h-[8px] rounded-xl bg-blue-500 mt-1.5'/>
                         <p className='text-base'>Low</p>
                     </div>
-                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>8</p>                   
-                    </div>
+                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>{tasks.filter(task => task.priority === 'Low').length}</p>
+                    </button>
+                    
+                    <button onClick={() => setFilter('medium')} className='flex justify-between mb-2 w-full'>
+                        <div className='flex gap-2 align-center'>
+                            <div className='w-[8px] h-[8px] rounded-xl bg-yellow-500 mt-1.5'/>
+                            <p className='text-base mb-2'>Medium</p>
+                        </div>
+                          <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>{tasks.filter(task => task.priority === 'Medium').length}</p>
+                    </button>
+
+                    <button onClick={() => setFilter('high')} className='flex justify-between w-full'>
+                        <div className='flex gap-2 align-center'>
+                            <div className='w-[8px] h-[8px] rounded-xl bg-red-500 mt-1.5'/>
+                            <p className='text-base mb-2'>High</p>
+                        </div>
+                         <p className='p-1 w-[30px] rounded-2xl text-sm text-center'>{tasks.filter(task => task.priority === 'High').length}</p>
+                    </button>
                 </div>
 
             </div>
