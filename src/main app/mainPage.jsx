@@ -146,7 +146,7 @@ const MainPage = () => {
       case 'Medium':
         return 'text-yellow-500 bg-yellow-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
       case 'Low':
-        return 'text-green-500 bg-green-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
+        return 'text-green-blue bg-blue-100 ml-3 font-semibold rounded-md p-1 w-fit text-sm';
       default:
         return 'text-gray-500';
     }
