@@ -22,7 +22,8 @@ const MainPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date()); // current date
   const [searchQuery, setSearchQuery] = useState(''); // search query
   const [filter, setFilter] = useState('all'); // filter: 'all', 'active', 'completed'
-  const [alert, setAlert] = useState({ show: false, message: '' }); // alert state
+  const [alert, setAlert] = useState({ show: false, message: '', type: 'success' }); // alert state
+  const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null }); // confirmation dialog state
 
 
   useEffect(() => {
@@ -132,6 +133,10 @@ const MainPage = () => {
     saveTasksToStorage(updatedTasks);
     console.log('Task edited and saved to localStorage:', updatedTasks[editIndex]);
     setEditIndex(null);
+
+    // Show success alert
+    setAlert({ show: true, message: 'Task updated successfully!' });
+    setTimeout(() => setAlert({ show: false, message: '' }), 2000);
   };
 
   // Reset Form Fields
@@ -144,12 +149,23 @@ const MainPage = () => {
     setIsOpen(false);
   };
 
+  // Confirm Delete Task
+  const confirmDeleteTask = (index) => {
+    setConfirmDelete({ show: true, index });
+  };
+
   // Delete Task
-  const deleteTask = (indexToDelete) => {
+  const deleteTask = () => {
+    const indexToDelete = confirmDelete.index;
     const updatedTasks = tasks.filter((_, index) => index !== indexToDelete);
     setTasks(updatedTasks);
     saveTasksToStorage(updatedTasks);
     console.log('Task deleted and saved to localStorage');
+
+    // Show success alert
+    setAlert({ show: true, message: 'Task deleted successfully!', type: 'danger' });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'danger' }), 2000);
+    setConfirmDelete({ show: false, index: null });
   };
 
   // Edit Task
@@ -171,6 +187,12 @@ const MainPage = () => {
     setTasks(updated);
     saveTasksToStorage(updated);
     console.log('Task completion toggled and saved to localStorage');
+
+    // Show success alert if task is marked as completed
+    if (updated[index].isDone) {
+      setAlert({ show: true, message: 'Task marked as completed!' });
+      setTimeout(() => setAlert({ show: false, message: '' }), 2000);
+    }
   };
 
   // Helper: Format date/time
@@ -201,14 +223,14 @@ const MainPage = () => {
 
 
   return (
-    <div className="flex gap-[10px] flex-col md:flex-row h-full mx-3 mt-5">
+    <div className="flex gap-[10px] flex-col md:flex-row h-full m-3">
       {/* Sidebar */}
-      <div className="w-full md:w-[25%] lg:w-[20%] h-[94%] md:fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
+      <div className="w-fit md:w-[25%] lg:w-[20%] h-fit md:fixed rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)]">
         <Sidebar tasks={tasks} setFilter={setFilter} filter={filter} />
       </div>
 
       {/* Main Section */}
-      <div className="w-full md:w-[72%] lg:w-[77%] md:fixed h-[94%] px-4 md:px-12 md:ml-[18rem] lg:ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
+      <div className="w-fit md:w-[72%] lg:w-[77%] md:fixed h-[94%] px-4 md:px-12 md:ml-[18rem] lg:ml-[18rem] rounded-xl shadow-[0_0_6px_rgba(128,128,128,0.70)] overflow-y-auto pb-10">
         {/* Header */}
         <div className="fixed shadow-[0_2px_0_rgba(128,128,128,0.10)] backdrop-blur-sm bg-white w-full md:w-[70%] lg:w-[70%]">
           <div className="item flex justify-between">
@@ -248,8 +270,32 @@ const MainPage = () => {
 
         {/* Success Alert */}
         {alert.show && (
-          <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+          <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 ${alert.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white px-4 py-2 rounded-lg shadow-lg z-50`}>
             {alert.message}
+          </div>
+        )}
+
+        {/* Confirmation Dialog */}
+        {confirmDelete.show && (
+          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-20">
+            <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
+              <h2 className="text-xl text-center font-semibold mb-4">Confirm Delete</h2>
+              <p className="text-center mb-6">Are you sure you want to delete this task?</p>
+              <div className="flex gap-4 justify-center">
+                <button
+                  onClick={deleteTask}
+                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setConfirmDelete({ show: false, index: null })}
+                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
+                >
+                  No
+                </button>
+              </div>
+            </div>
           </div>
         )}
 
@@ -398,7 +444,7 @@ const MainPage = () => {
                     <button onClick={() => editTask(index)}>
                       <HugeiconsIcon icon={PropertyEditIcon} />
                     </button>
-                    <button onClick={() => deleteTask(index)}>
+                    <button onClick={() => confirmDeleteTask(index)}>
                       <HugeiconsIcon icon={Delete02Icon} color="red" />
                     </button>
                   </div>

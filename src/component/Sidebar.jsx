@@ -71,7 +71,7 @@ const Sidebar = ({ tasks, setFilter, filter }) => {
             </div>
 
 
-            <div className="w-[250px] grow">
+            <div className="w-[250px] pb-4.5 grow">
                 <h3 className='text-md text-white font-semibold py-2 pl-2 rounded-md mb-2 bg-sky-950'>Priority</h3>
                 <div>
                     <button onClick={() => setFilter('low')} className={`flex justify-between w-full p-2 rounded ${filter === 'low' ? 'bg-gray-200' : ''}`}>
