@@ -20,7 +20,7 @@ export const useReminders = (tasks, setTasks, saveTasksToStorage) => {
           const timeDiff = dueDate - now;
           const minutesDiff = timeDiff / (1000 * 60);
           console.log(`Task "${task.title}": due at ${dueDate.toLocaleString()}, minutesDiff: ${minutesDiff}, reminded: ${task.reminded}`);
-          if (minutesDiff <= 5 && minutesDiff > 0 && !task.reminded) {
+          if (minutesDiff <= 10 && minutesDiff > 0 && !task.reminded) {
             console.log('Triggering 5-minute reminder for task:', task.title);
             setReminder({ show: true, task, type: 'reminder' });
             // Mark as reminded

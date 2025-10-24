@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Sidebar from '../component/Sidebar';
-import Progressbar from '../component/ui_logic/Progressbar';
+import Sidebar from '../components/Sidebar';
+import Progressbar from '../components/ui_logic/Progressbar';
 import TaskItem from '../components/TaskItem';
 import TaskForm from '../components/TaskForm';
 import ReminderPopup from '../components/ReminderPopup';
