@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../component/Sidebar';
 import Progressbar from '../component/ui_logic/Progressbar';
+import TaskItem from '../components/TaskItem';
+import TaskForm from '../components/TaskForm';
+import ReminderPopup from '../components/ReminderPopup';
+import ConfirmDeleteDialog from '../components/ConfirmDeleteDialog';
+import { useReminders } from '../hooks/useReminders';
+import { loadTasksFromStorage, saveTasksToStorage } from '../utils';
 import { HugeiconsIcon } from '@hugeicons/react';
-import {
-  SearchIcon,
-  Add02Icon,
-  TickDouble03Icon,
-  PropertyEditIcon,
-  Delete02Icon,
-} from '@hugeicons/core-free-icons';
+import { SearchIcon, Add02Icon, PropertyEditIcon, TickDouble03Icon, Delete02Icon } from '@hugeicons/core-free-icons';
 
 /**
  * MainPage Component
@@ -31,7 +31,6 @@ const MainPage = () => {
   const [filter, setFilter] = useState('all'); // Filter type: 'all', 'active', 'completed', etc.
   const [alert, setAlert] = useState({ show: false, message: '', type: 'success' }); // State for displaying alerts
   const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null }); // State for delete confirmation dialog
-  const [reminder, setReminder] = useState({ show: false, task: null, type: 'reminder' }); // State for reminder popup
 
 
   useEffect(() => {
@@ -60,70 +59,12 @@ const MainPage = () => {
     day: 'numeric',
   });
 
-  // Load tasks from localStorage
-  const loadTasksFromStorage = () => {
-    try {
-      const savedTasks = JSON.parse(localStorage.getItem("tasks"));
-      if (Array.isArray(savedTasks)) {
-        setTasks(savedTasks);
-        console.log('Loaded tasks from localStorage:', savedTasks);
-      }
-    } catch (error) {
-      console.error('Error loading tasks from localStorage:', error);
-    }
-  };
-
-  // Save tasks to localStorage
-  const saveTasksToStorage = (tasksToSave) => {
-    try {
-      localStorage.setItem("tasks", JSON.stringify(tasksToSave));
-      console.log('Successfully saved tasks to localStorage:', tasksToSave);
-    } catch (error) {
-      console.error('Error saving tasks to localStorage:', error);
-    }
-  };
-
   useEffect(() => {
-    loadTasksFromStorage();
+    setTasks(loadTasksFromStorage());
   }, []);
 
-  // Check for reminders every 30 seconds
-  useEffect(() => {
-    const checkReminders = () => {
-      const now = new Date();
-      console.log('Checking reminders at:', now.toLocaleString());
-      tasks.forEach((task, index) => {
-        if (!task.isDone) {
-          const dueDate = new Date(task.dueDateTime);
-          const timeDiff = dueDate - now;
-          const minutesDiff = timeDiff / (1000 * 60);
-          console.log(`Task "${task.title}": due at ${dueDate.toLocaleString()}, minutesDiff: ${minutesDiff}, reminded: ${task.reminded}`);
-          if (minutesDiff <= 5 && minutesDiff > 0 && !task.reminded) {
-            console.log('Triggering 5-minute reminder for task:', task.title);
-            setReminder({ show: true, task, type: 'reminder' });
-            // Mark as reminded
-            const updatedTasks = [...tasks];
-            updatedTasks[index].reminded = true;
-            setTasks(updatedTasks);
-            saveTasksToStorage(updatedTasks);
-          } else if (minutesDiff <= 0 && !task.reminded) {
-            console.log('Triggering due reminder for task:', task.title);
-            setReminder({ show: true, task, type: 'due' });
-            // Mark as reminded to avoid repeated popups
-            const updatedTasks = [...tasks];
-            updatedTasks[index].reminded = true;
-            setTasks(updatedTasks);
-            saveTasksToStorage(updatedTasks);
-          }
-        }
-      });
-    };
-
-    const interval = setInterval(checkReminders, 30000); // Check every 30 seconds
-    // Also check immediately when tasks change
-    checkReminders();
-    return () => clearInterval(interval);
-  }, [tasks]);
+  // Use the custom reminder hook
+  const { reminder, setReminder } = useReminders(tasks, setTasks, saveTasksToStorage);
 
   // Handle Form Submission (Add or Edit)
   const handleSubmit = (e) => {
@@ -332,137 +273,34 @@ const MainPage = () => {
         )}
 
         {/* Confirmation Dialog */}
-        {confirmDelete.show && (
-          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-20">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
-              <h2 className="text-xl text-center font-semibold mb-4">Confirm Delete</h2>
-              <p className="text-center mb-6">Are you sure you want to delete this task?</p>
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={deleteTask}
-                  className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg"
-                >
-                  Yes
-                </button>
-                <button
-                  onClick={() => setConfirmDelete({ show: false, index: null })}
-                  className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
-                >
-                  No
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <ConfirmDeleteDialog
+          confirmDelete={confirmDelete}
+          setConfirmDelete={setConfirmDelete}
+          deleteTask={deleteTask}
+        />
 
         {/* Reminder Popup */}
-        {reminder.show && (
-          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-30">
-            <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
-              <h2 className="text-xl text-center font-semibold mb-4">
-                {reminder.type === 'due' ? '⚠️ Task Due' : '⏰ Reminder'}
-              </h2>
-              <p className="text-center mb-6">
-                {reminder.type === 'due'
-                  ? `Your task "${reminder.task.title}" is now due!`
-                  : `Your task "${reminder.task.title}" is due in 5 minutes!`
-                }
-              </p>
-              <div className="flex justify-center">
-                <button
-                  onClick={() => setReminder({ show: false, task: null, type: 'reminder' })}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
-                >
-                  OK
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <ReminderPopup
+          reminder={reminder}
+          setReminder={setReminder}
+        />
 
         {/* Popup Form */}
-        {isOpen && (
-          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-10">
-            <div className="bg-white rounded-lg p-6 w-180 shadow-lg relative">
-              <h2 className="text-xl text-center font-semibold mb-2">
-                {editIndex !== null ? 'Edit Task' : 'Add New Task'}
-              </h2>
-
-              {/* Error Message */}
-              {error && (
-                <p className="text-red-500 bg-red-100 border border-red-400 p-3 rounded-xl w-fit text-center mx-auto mb-2">
-                  {error}
-                </p>
-              )}
-
-              {/* Form */}
-              <form
-                onSubmit={handleSubmit}
-                className="flex justify-center flex-col gap-4 mt-5 w-1/2 mx-auto"
-              >
-                <input
-                  type="text"
-                  placeholder="Task title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                  className="border-2 rounded-md p-2 w-full"
-                />
-
-                <input
-                  type="text"
-                  placeholder="Describe task"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  required
-                  className="border-2 rounded-md p-2 w-full"
-                />
-
-                <select
-                  value={priority}
-                  onChange={(e) => setPriority(e.target.value)}
-                  required
-                  className="border rounded-lg p-2 w-40"
-                >
-                  <option value="">- Priority Level -</option>
-                  <option>Low</option>
-                  <option>Medium</option>
-                  <option>High</option>
-                </select>
-
-                <div className="text-base flex justify-between">
-                  <label>Set Deadline:</label>
-                  <input
-                    type="datetime-local"
-                    value={dueDateTime}
-                    onChange={(e) => setDueDateTime(e.target.value)}
-                  />
-                </div>
-
-                <div className="flex gap-2">
-                  <button
-                    type="submit"
-                    className="border-2 rounded-lg p-2 bg-sky-950 hover:bg-sky-900 text-white"
-                  >
-                    {editIndex !== null ? 'Update Task' : 'Add Task'}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setIsOpen(false);
-                      setEditIndex(null);
-                      setError('');
-                    }}
-                    className="bg-red-600 text-white px-3 py-1 rounded-md hover:bg-red-500"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
+        <TaskForm
+          isOpen={isOpen}
+          editIndex={editIndex}
+          title={title}
+          setTitle={setTitle}
+          description={description}
+          setDescription={setDescription}
+          priority={priority}
+          setPriority={setPriority}
+          dueDateTime={dueDateTime}
+          setDueDateTime={setDueDateTime}
+          error={error}
+          handleSubmit={handleSubmit}
+          resetForm={resetForm}
+        />
 
         {/* Task List */}
         <div className="mt-[12rem]">
