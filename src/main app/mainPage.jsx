@@ -31,6 +31,7 @@ const MainPage = () => {
   const [filter, setFilter] = useState('all'); // Filter type: 'all', 'active', 'completed', etc.
   const [alert, setAlert] = useState({ show: false, message: '', type: 'success' }); // State for displaying alerts
   const [confirmDelete, setConfirmDelete] = useState({ show: false, index: null }); // State for delete confirmation dialog
+  const [reminder, setReminder] = useState({ show: false, task: null, type: 'reminder' }); // State for reminder popup
 
 
   useEffect(() => {
@@ -86,6 +87,43 @@ const MainPage = () => {
     loadTasksFromStorage();
   }, []);
 
+  // Check for reminders every 30 seconds
+  useEffect(() => {
+    const checkReminders = () => {
+      const now = new Date();
+      console.log('Checking reminders at:', now.toLocaleString());
+      tasks.forEach((task, index) => {
+        if (!task.isDone) {
+          const dueDate = new Date(task.dueDateTime);
+          const timeDiff = dueDate - now;
+          const minutesDiff = timeDiff / (1000 * 60);
+          console.log(`Task "${task.title}": due at ${dueDate.toLocaleString()}, minutesDiff: ${minutesDiff}, reminded: ${task.reminded}`);
+          if (minutesDiff <= 5 && minutesDiff > 0 && !task.reminded) {
+            console.log('Triggering 5-minute reminder for task:', task.title);
+            setReminder({ show: true, task, type: 'reminder' });
+            // Mark as reminded
+            const updatedTasks = [...tasks];
+            updatedTasks[index].reminded = true;
+            setTasks(updatedTasks);
+            saveTasksToStorage(updatedTasks);
+          } else if (minutesDiff <= 0 && !task.reminded) {
+            console.log('Triggering due reminder for task:', task.title);
+            setReminder({ show: true, task, type: 'due' });
+            // Mark as reminded to avoid repeated popups
+            const updatedTasks = [...tasks];
+            updatedTasks[index].reminded = true;
+            setTasks(updatedTasks);
+            saveTasksToStorage(updatedTasks);
+          }
+        }
+      });
+    };
+
+    const interval = setInterval(checkReminders, 30000); // Check every 30 seconds
+    // Also check immediately when tasks change
+    checkReminders();
+    return () => clearInterval(interval);
+  }, [tasks]);
 
   // Handle Form Submission (Add or Edit)
   const handleSubmit = (e) => {
@@ -114,6 +152,7 @@ const MainPage = () => {
       dueDateTime,
       createdAt: new Date().toISOString(),
       isDone: false,
+      reminded: false,
     };
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
@@ -128,13 +167,17 @@ const MainPage = () => {
   // Edit Existing Task
   const handleEditTask = () => {
     const updatedTasks = [...tasks];
+    const originalTask = updatedTasks[editIndex];
+    const dueDateChanged = originalTask.dueDateTime !== dueDateTime;
+
     updatedTasks[editIndex] = {
-      ...updatedTasks[editIndex],
+      ...originalTask,
       title,
       description,
       priority,
       dueDateTime,
       updatedAt: new Date().toLocaleString(),
+      reminded: dueDateChanged ? false : originalTask.reminded, // Reset reminded flag if due date changed
     };
     setTasks(updatedTasks);
     saveTasksToStorage(updatedTasks);
@@ -210,6 +253,12 @@ const MainPage = () => {
       dateStyle: 'medium',
       timeStyle: 'short',
     });
+  };
+
+  // Helper: Check if task is overdue
+  const isOverdue = (dueDateTime) => {
+    if (!dueDateTime) return false;
+    return new Date(dueDateTime) < new Date();
   };
 
   // Priority Color
@@ -300,6 +349,31 @@ const MainPage = () => {
                   className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
                 >
                   No
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Reminder Popup */}
+        {reminder.show && (
+          <div className="fixed inset-0 backdrop-blur-sm flex items-center justify-center z-30">
+            <div className="bg-white rounded-lg p-6 w-96 shadow-lg relative">
+              <h2 className="text-xl text-center font-semibold mb-4">
+                {reminder.type === 'due' ? '⚠️ Task Due' : '⏰ Reminder'}
+              </h2>
+              <p className="text-center mb-6">
+                {reminder.type === 'due'
+                  ? `Your task "${reminder.task.title}" is now due!`
+                  : `Your task "${reminder.task.title}" is due in 5 minutes!`
+                }
+              </p>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setReminder({ show: false, task: null, type: 'reminder' })}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg"
+                >
+                  OK
                 </button>
               </div>
             </div>
@@ -439,7 +513,7 @@ const MainPage = () => {
                       {task.description}
                     </p>
                     <p className="text-sm">
-                      Due: {formatDateTime(task.dueDateTime)}{' '}
+                      Due: <span className={isOverdue(task.dueDateTime) ? 'text-red-600 font-semibold' : ''}>{formatDateTime(task.dueDateTime)}</span>{' '}
                       <span className="ml-0 md:ml-10">
                         {task.updatedAt ? `Updated: ${formatDateTime(task.updatedAt)}` : `Created: ${formatDateTime(task.createdAt)}`}
                       </span>
