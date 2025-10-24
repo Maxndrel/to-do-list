@@ -121,8 +121,8 @@ const MainPage = () => {
     console.log('Task added and saved to localStorage:', newTask);
 
     // Show success alert
-    setAlert({ show: true, message: 'Task added successfully!' });
-    setTimeout(() => setAlert({ show: false, message: '' }), 2000);
+    setAlert({ show: true, message: 'Task added successfully!', type: 'success' });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 2000);
   };
 
   // Edit Existing Task
@@ -142,8 +142,8 @@ const MainPage = () => {
     setEditIndex(null);
 
     // Show success alert
-    setAlert({ show: true, message: 'Task updated successfully!' });
-    setTimeout(() => setAlert({ show: false, message: '' }), 2000);
+    setAlert({ show: true, message: 'Task updated successfully!', type: 'success' });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 2000);
   };
 
   // Reset Form Fields
@@ -170,8 +170,8 @@ const MainPage = () => {
     console.log('Task deleted and saved to localStorage');
 
     // Show success alert
-    setAlert({ show: true, message: 'Task deleted successfully!', type: 'success' });
-    setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 2000);
+    setAlert({ show: true, message: 'Task deleted successfully!', type: 'danger' });
+    setTimeout(() => setAlert({ show: false, message: '', type: 'danger' }), 2000);
     setConfirmDelete({ show: false, index: null });
   };
 
@@ -197,8 +197,8 @@ const MainPage = () => {
 
     // Show success alert if task is marked as completed
     if (updated[index].isDone) {
-      setAlert({ show: true, message: 'Task marked as completed!' });
-      setTimeout(() => setAlert({ show: false, message: '' }), 2000);
+      setAlert({ show: true, message: 'Task marked as completed!', type: 'success' });
+      setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 2000);
     }
   };
 
@@ -266,7 +266,7 @@ const MainPage = () => {
               </button>
             </form>
             <button
-              className="p-2.5 bg-sky-950 hover:bg-sky-900 rounded-lg w-full md:w-auto md:ml-2 text-white text-md font-medium flex gap-1 justify-center"
+              className="p-2 bg-sky-950 hover:bg-sky-900 rounded-lg w-full md:w-auto md:ml-2 text-white text-md font-medium flex gap-1 justify-center"
               onClick={() => setIsOpen(true)}
             >
               <HugeiconsIcon icon={Add02Icon} size={17} className="mt-0.5" />{' '}
